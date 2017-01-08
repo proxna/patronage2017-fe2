@@ -1,0 +1,149 @@
+<html>
+  <head>
+    <title>Score counter</title>
+    <link href="main.css" rel="stylesheet">
+  </head>
+  <body>
+    <div>
+      <form>
+        <label for="format">Format</label>
+        <input id="newCounterFormat" name="format" type="number">
+        <label for="value">Value</label>
+        <input id="newCounterValue" name="value" type="number">
+      </form>
+      <button id="addCounterBtn">Add Counter</button>
+      <button id="delCounterBtn">Remove Counter</button>
+    </div>
+    <div id="score-1">
+      <h1>Score 1: <span class="counter"></span></h1>
+      <form>
+        <button class="up">Up</button>
+        <button class="down">Down</button>
+        <button class="get">Get</button>
+        <input class="value" type="number">
+        <button class="set">Set</button>
+        <button class="reset">Reset</button>
+      </form>
+    </div>
+    <div id="score-2">
+      <h1>Score 2: <span class="counter"></span></h1>
+      <form>
+        <button class="up">Up</button>
+        <button class="down">Down</button>
+        <button class="get">Get</button>
+        <input class="value" type="number">
+        <button class="set">Set</button>
+        <button class="reset">Reset</button>
+      </form>
+    </div>
+    <div id="score-3">
+      <h1>Score 3: <span class="counter"></span></h1>
+      <form>
+        <button class="up">Up</button>
+        <button class="down">Down</button>
+        <button class="get">Get</button>
+        <input class="value" type="number">
+        <button class="set">Set</button>
+        <button class="reset">Reset</button>
+      </form>
+    </div>
+    <script src="score-counter.js"></script>
+    <script src="score-ui.js"></script>
+    <script>
+      var counters=[];
+      var counterNumber=4;
+
+      var newCounterFormat=document.getElementById("newCounterFormat");
+      var newCounterValue=document.getElementById("newCounterValue");
+      var addButton=document.getElementById("addCounterBtn");
+      var delButton=document.getElementById("delCounterBtn");
+
+      var score1 = new ScoreUI(document.getElementById("score-1"), 1, 0);
+      var score2 = new ScoreUI(document.getElementById("score-2"), 2, 10);
+      var score3 = new ScoreUI(document.getElementById("score-3"), 4, 100);
+
+      counters.push(score1);
+      counters.push(score2);
+      counters.push(score3);
+
+      //prevent reload page after click buttons in counters
+      function changeButtonType(){
+        var buttons=document.getElementsByTagName("button");
+        for(var button of buttons){
+          button.type="button";
+        }
+      }
+
+      function createDiv(){
+        var div=document.createElement("div");
+        div.id="score-"+counterNumber;
+        var h1=document.createElement("h1");
+        h1.innerHTML="Score "+counterNumber+": ";
+        var counterSpan=document.createElement("span");
+        counterSpan.className="counter";
+        var form=document.createElement("form");
+        var upButton=document.createElement("button");
+        upButton.classList.add("up");
+        upButton.innerHTML="Up";
+        var downButton=document.createElement("button");
+        downButton.classList.add("down");
+        downButton.innerHTML="Down";
+        var getButton=document.createElement("button");
+        getButton.classList.add("get");
+        getButton.innerHTML="Get";
+        var newValueInput=document.createElement("input");
+        newValueInput.classList.add("value");
+        newValueInput.type="number";
+        var setButton=document.createElement("button");
+        setButton.classList.add("set");
+        setButton.innerHTML="Set";
+        var resetButton=document.createElement("button");
+        resetButton.classList.add("reset");
+        resetButton.innerHTML="Reset";
+        document.body.appendChild(div);
+        div.appendChild(h1);
+        h1.appendChild(counterSpan);
+        div.appendChild(form);
+        form.appendChild(upButton);
+        form.appendChild(downButton);
+        form.appendChild(getButton);
+        form.appendChild(newValueInput);
+        form.appendChild(setButton);
+        form.appendChild(resetButton);
+        changeButtonType();
+      }
+
+      function createCounter(format, initValue){
+        createDiv();
+        counters.push(new ScoreUI(document.getElementById("score-"+counterNumber), format, initValue));
+        ++counterNumber;
+      }
+
+      function removeCounter(){
+        if(counterNumber>1){
+          --counterNumber;
+          var el=document.getElementById("score-"+counterNumber);
+          el.parentNode.removeChild(el);
+          counters.pop();
+        }
+      }
+
+      addButton.addEventListener("click", evt => {
+        if (newCounterFormat.value=="" || newCounterValue.value=="") {
+          alert("Please fill all fields")
+        }
+        else{
+          createCounter(newCounterFormat.value, newCounterValue.value);
+        }
+      });
+
+      delButton.addEventListener("click", evt => {
+          removeCounter();
+      });
+
+      document.addEventListener("DOMContentLoaded", evt => {
+          changeButtonType();
+      });
+    </script>
+  </body>
+</html>
