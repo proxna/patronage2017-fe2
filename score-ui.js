@@ -23,7 +23,9 @@ class ScoreUI{
       alert(self.scoreCounter.value());
     });
     this.setButton.addEventListener("click", evt => {
-      self.scoreCounter.value(this.newValueInput.value);
+      if(this.newValueInput.value!=""){
+        self.scoreCounter.value(this.newValueInput.value);
+      }
     });
     this.resetButton.addEventListener("click", evt => {
       self.scoreCounter.reset();
