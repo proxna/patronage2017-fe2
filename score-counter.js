@@ -1,12 +1,27 @@
+const ANIMATION_CLASS_NAME="animatedCounter";
+const OUT_OF_RANGE_COM="number out of range";
+
 class ScoreCounter{
   constructor(element, format, initValue){
+    var self=this;
     this.element=element;
+    this.element.addEventListener("animationend", evt => {
+      self.element.classList.remove(ANIMATION_CLASS_NAME);
+    });
     this.format=format;
+    this.maxValue=Math.pow(10, this.format)-1;
     this.counterValue=Number.parseInt(initValue);//prevent adding values like strings
     this.printValue();
   }
 
+  resetAnimation(){
+    this.element.classList.remove(ANIMATION_CLASS_NAME);
+    this.element.offsetWidth;
+    this.element.classList.add(ANIMATION_CLASS_NAME);
+  }
+
   printValue(){
+    this.resetAnimation();
     var valueToStr = this.counterValue+"";
     while(valueToStr.length < this.format){
         valueToStr='0'+valueToStr;
@@ -15,12 +30,12 @@ class ScoreCounter{
   }
 
   up(){
-    if(this.counterValue<Math.pow(10, this.format)-1){
+    if(this.counterValue<this.maxValue){
       this.counterValue+=1;
       this.printValue();
     }
     else{
-      alert("number out of range");
+      alert(OUT_OF_RANGE_COM);
     }
   }
 
@@ -30,7 +45,7 @@ class ScoreCounter{
       this.printValue();
     }
     else{
-      alert("number out of range");
+      alert(OUT_OF_RANGE_COM);
     }
   }
 
@@ -38,16 +53,17 @@ class ScoreCounter{
     if(newValue===undefined){
       return this.counterValue;
     }
-    else if(newValue>=0 && newValue<=Math.pow(10, this.format)-1){
-      this.counterValue=Number.parseInt(newValue);
+    else if(newValue>=0 && newValue<=this.maxValue){
+      this.counterValue=Number.parseInt(newValue);//prevent adding values like strings
       this.printValue();
     }
     else{
-      alert("number out of range");
+      alert(OUT_OF_RANGE_COM);
     }
   }
 
   reset(){
+    this.element.classList.remove(ANIMATION_CLASS_NAME);
     this.counterValue=0;
     this.printValue();
   }
