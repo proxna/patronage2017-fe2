@@ -51,49 +51,48 @@
     <script src="score-ui.js"></script>
     <script src="counter-manager.js"></script>
     <script>
+    var score1 = new ScoreUI(document.getElementById("score-1"), 1, 0);
+    var score2 = new ScoreUI(document.getElementById("score-2"), 2, 10);
+    var score3 = new ScoreUI(document.getElementById("score-3"), 4, 100);
 
-      var score1 = new ScoreUI(document.getElementById("score-1"), 1, 0);
-      var score2 = new ScoreUI(document.getElementById("score-2"), 2, 10);
-      var score3 = new ScoreUI(document.getElementById("score-3"), 4, 100);
+    var counters=[];
 
-      var counters=[];
+    var newCounterFormat=document.getElementById("newCounterFormat");
+    var newCounterValue=document.getElementById("newCounterValue");
+    var addButton=document.getElementById("addCounterBtn");
+    var delButton=document.getElementById("delCounterBtn");
 
-      var newCounterFormat=document.getElementById("newCounterFormat");
-      var newCounterValue=document.getElementById("newCounterValue");
-      var addButton=document.getElementById("addCounterBtn");
-      var delButton=document.getElementById("delCounterBtn");
+    counters.push(score1);
+    counters.push(score2);
+    counters.push(score3);
 
-      counters.push(score1);
-      counters.push(score2);
-      counters.push(score3);
+    var counterManager=new CounterManager(counters);
 
-      var counterManager=new CounterManager(counters);
-
-      //prevent reloading page after click buttons in counters
-      function changeButtonType(){
-        var buttons=document.getElementsByTagName("button");
-        for(var button of buttons){
-          button.type="button";
-        }
+    //prevent reloading page after click buttons in counters
+    function changeButtonType(){
+      var buttons=document.getElementsByTagName("button");
+      for(var button of buttons){
+        button.type="button";
       }
+    }
 
-      addButton.addEventListener("click", evt => {
-        if (newCounterFormat.value=="" || newCounterValue.value=="") {
-          alert("Please fill all fields")
-        }
-        else{
-          counterManager.createCounter(newCounterFormat.value, newCounterValue.value);
-          changeButtonType();
-        }
-      });
+    addButton.addEventListener("click", evt => {
+      if (newCounterFormat.value=="" || newCounterValue.value=="") {
+        alert("Please fill all fields")
+      }
+      else{
+        counterManager.createCounter(newCounterFormat.value, newCounterValue.value);
+        changeButtonType();
+      }
+    });
 
-      delButton.addEventListener("click", evt => {
-          counterManager.removeCounter();
-      });
+    delButton.addEventListener("click", evt => {
+        counterManager.removeCounter();
+    });
 
-      document.addEventListener("DOMContentLoaded", evt => {
-          changeButtonType();
-      });
+    document.addEventListener("DOMContentLoaded", evt => {
+        changeButtonType();
+    });
     </script>
   </body>
 </html>
